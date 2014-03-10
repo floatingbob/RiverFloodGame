@@ -54,7 +54,10 @@ void setup() {
 
   // Init array of houses
   for (int j = 0; j < houses.length; j ++) {
-    houses[j] = new House(100, 100) ;
+    float rad = random(75, 200) ;
+    int r = (int) random(points.length) ;
+    FancyPoint p = points[r] ;
+    houses[j] = new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad) ;
   }
 }
 
@@ -136,8 +139,7 @@ void mouseReleased() {
     FancyPoint fp = points[k] ;
     if (dist(mouseX, mouseY, rx, ry) <= bsx) {
       println("R E S E T") ;
-      fp.x = fp.sx ;
-      fp.y = fp.sy ;
+      fp.reset() ; 
     }
   }
 }

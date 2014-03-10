@@ -37,6 +37,7 @@ class FancyPoint extends Point {
   void reset() {
     x = sx ;
     y = sy ;
+    speed = random(0.05, 0.01) ;
   }
 }
 

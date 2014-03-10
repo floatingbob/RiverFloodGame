@@ -1,31 +1,24 @@
 // House class
 
 int hwidth = 35 ;
-int hheight = 50 ; 
+int hheight = 40 ; 
+ 
 
 
 class House {
 
   float posx, posy ;
   House(float x, float y) {
-    posx = random(width) ;
-    posy = random(width) ;
+    posx = x ;
+    posy = y ;
+    
+
   }
 
   void update(float x, float y) {
     posx = x ; 
     posy = y ;
 
-    // Creating a custom PShape as a square, by
-    // specifying a series of vertices.
-    s = createShape();
-    s.beginShape();
-    s.fill(0, 255, 0);
-    s.noStroke();
-    s.vertex(0, 50);
-    s.vertex(50, 50);
-    s.vertex(50, 0);
-    s.endShape(CLOSE);
       
   }
 
@@ -33,6 +26,10 @@ class House {
     fill(255, 0, 0) ;
     noStroke() ;
     rect(posx, posy, hwidth, hheight, 5) ;
+    fill(0, 255, 0) ;
+    triangle(posx - hwidth/2, posy-hheight/2, 
+    posx - hwidth/2 + hwidth/2, posy - hheight/2 - 20,
+    posx - hwidth/2 + hwidth, posy - hheight/2); 
   }
 }
 
