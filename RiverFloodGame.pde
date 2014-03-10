@@ -4,7 +4,7 @@
 
 //----Arrays--
 FancyPoint[] points ; // an array for all the points in the svg
-House[] houses ; // an array list of houses
+House[] houses = new House[25] ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
 //------------
 
@@ -51,6 +51,11 @@ void setup() {
       points[i] = new FancyPoint(v.x, v.y, .0*TWO_PI) ;
     }
   }
+
+  // Init array of houses
+  for (int j = 0; j < houses.length; j ++) {
+    houses[j] = new House(100, 100) ;
+  }
 }
 
 void draw() {
@@ -78,6 +83,15 @@ void draw() {
     s.update(mouseX, mouseY) ;
   }
 
+  // Draw out houses
+  for (int l=0; l<houses.length ; l++) {
+    House h = houses[l] ;
+    h.render() ;
+
+  }
+
+
+  // Draw out sandbags
   for (int i = 0; i < sandbags.size(); i++) {
     Sandbag s = (Sandbag) sandbags.get(i) ;  // get the ith Sandbag element from the list 
     s.render() ;
