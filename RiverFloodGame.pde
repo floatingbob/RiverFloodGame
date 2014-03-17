@@ -181,7 +181,49 @@ void setFloodplane() {
   for (int i = 0; i < points.length; i++) {
         if ( i > 1 && i < 70) {
           points[i].dir = .55*TWO_PI ;
-          points[i].maxDistance = 20 ;
+          points[i].maxDistance = 10 ; 
+        }
+  }
+//  for (int i = 0; i < points.length; i++) {
+//        if ( i >= 78 && i <= 69) {
+//          points[i].dir = .55*TWO_PI ;
+//          points[i].maxDistance = 20 ; 
+//        }
+//  }
+  for (int i = 0; i < points.length; i++) {
+        if ( i >= 70 && i <= 144) {
+          points[i].dir = .55*TWO_PI ;
+          points[i].maxDistance = 5 ; 
+        }
+  }
+  for (int i = 0; i < points.length; i++) {
+        if ( i >= 145 && i <= 135) {
+          points[i].dir = .0*TWO_PI ;
+          points[i].maxDistance = 15 ; 
+        }
+  }
+  for (int i = 0; i < points.length; i++) {
+        if ( i > 135 && i <= 175) {
+          points[i].dir = .2*TWO_PI ;
+          points[i].maxDistance = 60 ; 
+        }
+  }
+  for (int i = 0; i < points.length; i++) {
+        if ( i >= 176 && i <= 185) {
+          points[i].dir = .5*TWO_PI ;
+          points[i].maxDistance = 20 ; 
+        }
+  }
+  for (int i = 0; i < points.length; i++) {
+        if ( i >= 185 && i <= 192) {
+          points[i].dir = .55*TWO_PI ;
+          points[i].maxDistance = 5 ; 
+        }
+  }
+  for (int i = 0; i < points.length; i++) {
+        if ( i >= 252 && i <= 320) {
+          points[i].dir = .0*TWO_PI ;
+          points[i].maxDistance = 100 ; 
         }
   }
 }
