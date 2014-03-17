@@ -8,6 +8,7 @@ House[] houses = new House[25] ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
 //------------
 
+PImage photo, largeImage ;
 PShape s; // svg shape 
 float bx, by, bsx, bsy, rx, ry ; // button variables
 boolean flag = false ; // test to see if we are pressed or free to make another
@@ -18,6 +19,8 @@ int black = 0 ;
 int white = 255 ;
 
 void setup() {
+  photo = loadImage("floodThumb.png") ;
+  largeImage = loadImage("floodLarge.png") ; 
   background(0) ;
   size(600, 600) ;
   smooth() ;
@@ -54,7 +57,7 @@ void setup() {
 
   // Init array of houses
   for (int j = 0; j < houses.length; j ++) {
-    float rad = random(75, 200) ;
+    float rad = random(75, 150) ;
     int r = (int) random(points.length) ;
     FancyPoint p = points[r] ;
     houses[j] = new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad) ;
@@ -67,6 +70,7 @@ void draw() {
 
   noStroke() ;
 
+  floodedHouse() ;
   // flood reset button
 
   fill(grey) ;
@@ -90,7 +94,6 @@ void draw() {
   for (int l=0; l<houses.length ; l++) {
     House h = houses[l] ;
     h.render() ;
-
   }
 
 
@@ -139,17 +142,33 @@ void mouseReleased() {
     FancyPoint fp = points[k] ;
     if (dist(mouseX, mouseY, rx, ry) <= bsx) {
       println("R E S E T") ;
-      fp.reset() ; 
+      fp.reset() ;
     }
   }
 }
 void stopFlood() {
   for (int i = 0; i < sandbags.size(); i++) {
-    for (int j = 0; j < points.length; j ++) {
+    for (int j = 0; j < points.length; j++) {
       Sandbag b = (Sandbag)sandbags.get(i) ;
       FancyPoint fp = points[j] ;
       if (dist(b.posx, b.posy, fp.x, fp.y) < 20) {
         fp.speed = 0;
+      }
+    }
+  }
+}
+void floodedHouse() {
+  for (int i = 0; i < houses.length; i++) {
+    for (int j = 0; j < points.length; j++) {
+      House h = houses[i] ;
+      FancyPoint fp = points[j] ;
+      int imagePos = 0 ;
+      if (dist(h.posx, h.posy, fp.x, fp.y) < 20) {
+        image(photo, imagePos, imagePos) ;
+        println("F l o o d e d") ;
+        if (dist (pmouseX, pmouseY, imagePos, imagePos) < 70) {
+          image(largeImage, imagePos, imagePos) ; 
+        }
       }
     }
   }
