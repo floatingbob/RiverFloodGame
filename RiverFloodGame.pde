@@ -22,7 +22,7 @@ void setup() {
   photo = loadImage("floodThumb.png") ;
   largeImage = loadImage("floodLarge.png") ; 
   background(0) ;
-  size(600, 600) ;
+  size(1080, 768) ;
   smooth() ;
   rectMode(CENTER) ;
   textAlign(CENTER) ;
@@ -40,7 +40,7 @@ void setup() {
   // The file "bot.svg" must be in the data folder
   // a single shape svg
   // we just want the verticies, so the first child 
-  s = loadShape("testRiver2.svg").getChild(0);
+  s = loadShape("riverSVG.svg").getChild(0);
   // init the array with as many elements as points
   points = new FancyPoint[s.getVertexCount()] ;
   // get all the verticies from the svg shape
@@ -73,6 +73,7 @@ void draw() {
   floodedHouse() ;
   // flood reset button
 
+  //button
   fill(grey) ;
   rect(rx, ry, bsx, bsy, r) ;
   fill(black) ;
