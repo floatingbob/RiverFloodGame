@@ -53,6 +53,9 @@ void setup() {
     else {
       points[i] = new FancyPoint(v.x, v.y, .0*TWO_PI) ;
     }
+    if ( i > 322 && i < 365) {
+      points[i].dir = .55*TWO_PI ;
+    }
   }
 
   // Init array of houses
@@ -69,7 +72,7 @@ void draw() {
   //Sandbag generation button
 
   noStroke() ;
-
+  setFloodplane() ;
   floodedHouse() ;
   // flood reset button
 
@@ -113,11 +116,11 @@ void draw() {
     FancyPoint p = points[i] ;
     p.check() ;
     fill(5, 255, 211);
-    //    ellipse(p.x, p.y, 10, 10) ;
+    //    ellipse(p.x, p.y, 10, 10) ; //ellipse at points
 
     curveVertex(p.x, p.y) ;
-    //    fill(75, 75, 75);
-    //    text(i, p.x, p.y);
+    fill(75, 75, 75);
+    text(i, p.x, p.y);
   }
   fill(0, 0, 255, 55) ;
   endShape() ;
@@ -168,10 +171,18 @@ void floodedHouse() {
         image(photo, imagePos, imagePos) ;
         println("F l o o d e d") ;
         if (dist (pmouseX, pmouseY, imagePos, imagePos) < 70) {
-          image(largeImage, imagePos, imagePos) ; 
+          image(largeImage, imagePos, imagePos) ;
         }
       }
     }
+  }
+}
+void setFloodplane() {
+  for (int i = 0; i < points.length; i++) {
+        if ( i > 1 && i < 70) {
+          points[i].dir = .55*TWO_PI ;
+          points[i].maxDistance = 20 ;
+        }
   }
 }
 
