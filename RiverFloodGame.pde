@@ -6,21 +6,27 @@
 FancyPoint[] points ; // an array for all the points in the svg
 House[] houses = new House[25] ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
+PImage[] images = new PImage[1000] ; //image array
+
 //------------
 
-PImage photo, largeImage ;
+PImage photo, largeImage, riverIsometric, house ;
 PShape s; // svg shape 
 float bx, by, bsx, bsy, rx, ry ; // button variables
 boolean flag = false ; // test to see if we are pressed or free to make another
 boolean resetFlag = false ;
-int r = 10 ; //radius of rectangles
+int r = 5 ; //radius of rectangles
 int grey = 200 ;
 int black = 0 ;
 int white = 255 ;
 
+
 void setup() {
   photo = loadImage("floodThumb.png") ;
   largeImage = loadImage("floodLarge.png") ; 
+  riverIsometric = loadImage("riverIsometric.png") ;
+  house = loadImage("house.png") ;
+  
   background(0) ;
   size(1080, 768) ;
   smooth() ;
@@ -30,12 +36,13 @@ void setup() {
   sandbags = new ArrayList() ; // generate sandbag array list
 
     //----------------
-  bx = 100 ; //Button X start coordinate
-  by = 100 ; //Button Y start coordinate 
+  rx = 1000 ; //reset button x start
+  ry = 30 ; //reset button y start
+  bx = rx - 175 ; //Button X start coordinate
+  by = ry ; //Button Y start coordinate 
   bsx = 75 ; // Button width (sandbags)
   bsy = 35 ; // button height (sandbags)
-  rx = bx + 200 ; //reset button x start
-  ry = by ; //reset button y start
+  
 
   // The file "bot.svg" must be in the data folder
   // a single shape svg
@@ -65,28 +72,36 @@ void setup() {
     FancyPoint p = points[r] ;
     houses[j] = new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad) ;
   }
+  // Load images into array
+  for (int i = 0; i < images.length; i ++ )
+  {
+    images[i] = loadImage( i + ".png" ); //make sure images exist
+  }
+   
 }
 
 void draw() {
   background(240, 240, 240);
   //Sandbag generation button
 
+  image(riverIsometric, 0, 0) ; //draw background map image
+  
   noStroke() ;
   setFloodplane() ;
   floodedHouse() ;
   // flood reset button
 
-  //button
-  fill(grey) ;
+  //Reset button
+  fill(247, 147, 29) ;
   rect(rx, ry, bsx, bsy, r) ;
-  fill(black) ;
-  text("Reset", rx, ry) ;
+  fill(255, 255, 255) ;
+  text("Reset", rx, ry + 3) ;
 
   // Sandbag select button
-  fill(grey) ;
+  fill(107, 190, 79) ;
   rect(bx, by, bsx, bsy, r) ;
-  fill(black) ;
-  text("Sandbags", bx, by) ;
+  fill(255, 255, 255) ;
+  text("Sandbags", bx, by + 3) ;
 
 
   if (flag==true) {
@@ -115,14 +130,14 @@ void draw() {
   for (int i=0; i<points.length ; i++) {
     FancyPoint p = points[i] ;
     p.check() ;
-    fill(5, 255, 211);
+    fill(99, 201, 219);
     //    ellipse(p.x, p.y, 10, 10) ; //ellipse at points
 
     curveVertex(p.x, p.y) ;
     fill(75, 75, 75);
-    text(i, p.x, p.y);
+//    text(i, p.x, p.y);
   }
-  fill(0, 0, 255, 55) ;
+  fill(99, 201, 219, 200) ;
   endShape() ;
   stopFlood() ;
   reset() ;

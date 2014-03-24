@@ -15,7 +15,7 @@ class Sandbag {
   }
 
   void render() {
-    fill(200, 200, 200) ;
+    fill(107, 190, 79) ;
     noStroke() ;
     rect(posx, posy, swidth, sheight, 10) ;
   }
