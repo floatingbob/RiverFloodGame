@@ -6,10 +6,13 @@
 FancyPoint[] points ; // an array for all the points in the svg
 House[] houses = new House[25] ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
-PImage[] images = new PImage[1000] ; //image array
+ArrayList floodImages ; // an array list for the image objects to load into
 
 //------------
-
+float posMultiplierX, posMultiplierY ; // multipliers for positioning in a flexible way
+// the grid we want on the the screen
+float gridSizeX = 10 ;
+float gridSizeY = 8 ;
 PImage photo, largeImage, riverIsometric, house ;
 PShape s; // svg shape 
 float bx, by, bsx, bsy, rx, ry ; // button variables
@@ -26,7 +29,7 @@ void setup() {
   largeImage = loadImage("floodLarge.png") ; 
   riverIsometric = loadImage("riverIsometric.png") ;
   house = loadImage("house.png") ;
-  
+
   background(0) ;
   size(1080, 768) ;
   smooth() ;
@@ -42,7 +45,7 @@ void setup() {
   by = ry ; //Button Y start coordinate 
   bsx = 75 ; // Button width (sandbags)
   bsy = 35 ; // button height (sandbags)
-  
+
 
   // The file "bot.svg" must be in the data folder
   // a single shape svg
@@ -67,17 +70,23 @@ void setup() {
 
   // Init array of houses
   for (int j = 0; j < houses.length; j ++) {
-    float rad = random(75, 150) ;
+    float rad = random(200, 300) ; //sets distance of houses from the edge of the river
     int r = (int) random(points.length) ;
     FancyPoint p = points[r] ;
     houses[j] = new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad) ;
   }
-  // Load images into array
-  for (int i = 0; i < images.length; i ++ )
-  {
-    images[i] = loadImage( i + ".png" ); //make sure images exist
+
+  // calculate the multiplers after size() relative to the grid
+  posMultiplierX = width/gridSizeX ;
+  posMultiplierY = height/gridSizeY ;
+
+  floodImages = new ArrayList() ; // new array list
+  String[] images = getImages();  // call the function to get all the images
+
+    // got through the array of names and create a object into the array list
+  for (int i =0 ; i< images.length; i++) {
+    floodImages.add(new FloodImage(images[i], "floodImages/")) ;
   }
-   
 }
 
 void draw() {
@@ -85,10 +94,10 @@ void draw() {
   //Sandbag generation button
 
   image(riverIsometric, 0, 0) ; //draw background map image
-  
+
   noStroke() ;
   setFloodplane() ;
-  floodedHouse() ;
+  //floodedHouse() ;
   // flood reset button
 
   //Reset button
@@ -135,12 +144,18 @@ void draw() {
 
     curveVertex(p.x, p.y) ;
     fill(75, 75, 75);
-//    text(i, p.x, p.y);
+    //    text(i, p.x, p.y);
   }
   fill(99, 201, 219, 200) ;
   endShape() ;
   stopFlood() ;
   reset() ;
+
+  // go through the array list and display, using ,multiplier to position
+  for (int i=0; i<floodImages.size(); i++) {
+    FloodImage fl = (FloodImage)floodImages.get(i) ; // get a pointer to the arraylist instance
+    fl.display(posMultiplierX, posMultiplierY) ;  //display it
+  }
 }
 
 void mousePressed() {
@@ -176,70 +191,80 @@ void stopFlood() {
     }
   }
 }
-void floodedHouse() {
-  for (int i = 0; i < houses.length; i++) {
-    for (int j = 0; j < points.length; j++) {
-      House h = houses[i] ;
-      FancyPoint fp = points[j] ;
-      int imagePos = 0 ;
-      if (dist(h.posx, h.posy, fp.x, fp.y) < 20) {
-        image(photo, imagePos, imagePos) ;
-        println("F l o o d e d") ;
-        if (dist (pmouseX, pmouseY, imagePos, imagePos) < 70) {
-          image(largeImage, imagePos, imagePos) ;
-        }
-      }
+
+void setFloodplane() {
+  for (int i = 0; i < points.length; i++) {
+    if ( i > 1 && i < 70) {
+      points[i].dir = .55*TWO_PI ;
+      points[i].maxDistance = 10 ;
+    }
+  }
+  //  for (int i = 0; i < points.length; i++) {
+  //        if ( i >= 78 && i <= 69) {
+  //          points[i].dir = .55*TWO_PI ;
+  //          points[i].maxDistance = 20 ; 
+  //        }
+  //  }
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= 70 && i <= 144) {
+      points[i].dir = .55*TWO_PI ;
+      points[i].maxDistance = 5 ;
+    }
+  }
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= 145 && i <= 135) {
+      points[i].dir = .0*TWO_PI ;
+      points[i].maxDistance = 15 ;
+    }
+  }
+  for (int i = 0; i < points.length; i++) {
+    if ( i > 135 && i <= 175) {
+      points[i].dir = .2*TWO_PI ;
+      points[i].maxDistance = 60 ;
+    }
+  }
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= 176 && i <= 185) {
+      points[i].dir = .5*TWO_PI ;
+      points[i].maxDistance = 20 ;
+    }
+  }
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= 185 && i <= 192) {
+      points[i].dir = .55*TWO_PI ;
+      points[i].maxDistance = 5 ;
+    }
+  }
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= 252 && i <= 320) {
+      points[i].dir = .0*TWO_PI ;
+      points[i].maxDistance = 100 ;
     }
   }
 }
-void setFloodplane() {
-  for (int i = 0; i < points.length; i++) {
-        if ( i > 1 && i < 70) {
-          points[i].dir = .55*TWO_PI ;
-          points[i].maxDistance = 10 ; 
-        }
+
+String[] getImages() {
+  // we'll have a look in the data folder
+  java.io.File folder = new java.io.File(dataPath("floodImages/"));
+
+  // let's set a filter (which returns true if file's extension is .png)
+  java.io.FilenameFilter pngFilter = new java.io.FilenameFilter() {
+    public boolean accept(File dir, String name) {
+      return name.toLowerCase().endsWith(".png");
+    }
+  };
+
+  // list the files in the data folder, passing the filter as parameter
+  String[] filenames = folder.list(pngFilter);
+
+  // get and display the number of png files
+  println(filenames.length + " png files in specified directory");
+
+  // display the filenames
+  for (int i = 0; i < filenames.length; i++) {
+    println(filenames[i]);
   }
-//  for (int i = 0; i < points.length; i++) {
-//        if ( i >= 78 && i <= 69) {
-//          points[i].dir = .55*TWO_PI ;
-//          points[i].maxDistance = 20 ; 
-//        }
-//  }
-  for (int i = 0; i < points.length; i++) {
-        if ( i >= 70 && i <= 144) {
-          points[i].dir = .55*TWO_PI ;
-          points[i].maxDistance = 5 ; 
-        }
-  }
-  for (int i = 0; i < points.length; i++) {
-        if ( i >= 145 && i <= 135) {
-          points[i].dir = .0*TWO_PI ;
-          points[i].maxDistance = 15 ; 
-        }
-  }
-  for (int i = 0; i < points.length; i++) {
-        if ( i > 135 && i <= 175) {
-          points[i].dir = .2*TWO_PI ;
-          points[i].maxDistance = 60 ; 
-        }
-  }
-  for (int i = 0; i < points.length; i++) {
-        if ( i >= 176 && i <= 185) {
-          points[i].dir = .5*TWO_PI ;
-          points[i].maxDistance = 20 ; 
-        }
-  }
-  for (int i = 0; i < points.length; i++) {
-        if ( i >= 185 && i <= 192) {
-          points[i].dir = .55*TWO_PI ;
-          points[i].maxDistance = 5 ; 
-        }
-  }
-  for (int i = 0; i < points.length; i++) {
-        if ( i >= 252 && i <= 320) {
-          points[i].dir = .0*TWO_PI ;
-          points[i].maxDistance = 100 ; 
-        }
-  }
+
+  return filenames ;
 }
 
