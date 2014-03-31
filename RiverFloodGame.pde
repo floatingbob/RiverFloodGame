@@ -68,7 +68,7 @@ void setup() {
     }
   }
 
-  // Init array of houses
+  // Init array of houses randomly along my points array
   for (int j = 0; j < houses.length; j ++) {
     float rad = random(200, 300) ; //sets distance of houses from the edge of the river
     int r = (int) random(points.length) ;

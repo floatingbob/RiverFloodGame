@@ -11,6 +11,11 @@ class FloodImage {
   float x, y ;
   int savedTime = millis() ; // save current time
   int totalTime = 5000 ; // timer limit 
+  //bobbing pictures variables
+  int gStep = 0;
+  boolean gForwardFlag = true;
+  final int kStepTime = 150;  // how fast to step
+  int gLastTime = 0;
 
   // constructor with argument for file name
   FloodImage(String name, String dir) {
@@ -24,13 +29,56 @@ class FloodImage {
   // display the image at the grid position - with multiplier for screen space
   // if a house is being flooded
   void display(float multiplierX, float multiplierY) {
+
+    int thisTime = millis();
+    if (thisTime - gLastTime >= kStepTime) {
+      if (gForwardFlag == true) {
+        gStep++;
+        if (gStep == 3) {
+          gForwardFlag = false;
+        }
+      }
+      else {
+        gStep--;
+        if (gStep == -3) {
+          gForwardFlag = true;
+        }
+      }
+      // save time
+      gLastTime = thisTime;
+    }
+
+
     for (int i = 0; i < houses.length; i++) {
       for (int j = 0; j < points.length; j++) {
         House h = houses[i] ;
         FancyPoint fp = points[j] ;
-        int imagePos = 0 ;
         if (dist(h.posx, h.posy, fp.x, fp.y) < 20) {
-          image(img, x*multiplierX, y*multiplierY, 200, 100) ;
+          switch(gStep) {  //makes imgs bob in the water
+          case -3:
+            image(img, x*multiplierX, y*multiplierY, 100, 100);
+            break;
+          case -2:
+            image(img, x*multiplierX, y*multiplierY - 20, 100, 100);
+            break;
+          case -1:
+            image(img, x*multiplierX, y*multiplierY - 30, 100, 100);
+            break;
+          case 0:
+            image(img, x*multiplierX, y*multiplierY + 4, 100, 100);
+            break;
+          case 1:
+            image(img, x*multiplierX, y*multiplierY - 20, 100, 100);
+            break;
+          case 2:
+            image(img, x*multiplierX, y*multiplierY - 17, 100, 100);
+            break;
+          case 3:
+            image(img, x*multiplierX, y*multiplierY - 17, 100, 100);
+            break;
+          }
+          //image(img, x*multiplierX, y*multiplierY, 200, 100) ;
+
           if (dist (pmouseX, pmouseY, x*multiplierX, y*multiplierX) < 70) {
             image(img, x*multiplierX, y*multiplierY, 300, 200) ;
           }
