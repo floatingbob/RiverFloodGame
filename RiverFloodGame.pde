@@ -7,13 +7,13 @@ FancyPoint[] points ; // an array for all the points in the svg
 House[] houses = new House[25] ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
 ArrayList floodImages ; // an array list for the image objects to load into
-
+ArrayList floodThumbs ; // an array list for my image thumb objects
 //------------
 float posMultiplierX, posMultiplierY ; // multipliers for positioning in a flexible way
 // the grid we want on the the screen
 float gridSizeX = 10 ;
 float gridSizeY = 8 ;
-PImage photo, largeImage, riverIsometric, house ;
+PShape riverIsometric, house ; 
 PShape s; // svg shape 
 float bx, by, bsx, bsy, rx, ry ; // button variables
 boolean flag = false ; // test to see if we are pressed or free to make another
@@ -25,11 +25,9 @@ int white = 255 ;
 
 
 void setup() {
-  photo = loadImage("floodThumb.png") ;
-  largeImage = loadImage("floodLarge.png") ; 
-  riverIsometric = loadImage("riverIsometric.png") ;
-  house = loadImage("house.png") ;
 
+  riverIsometric = loadShape("riverSVG_Isometric.svg") ;
+  house = loadShape("house.svg") ;
   background(0) ;
   size(1080, 768) ;
   smooth() ;
@@ -87,13 +85,16 @@ void setup() {
   for (int i =0 ; i< images.length; i++) {
     floodImages.add(new FloodImage(images[i], "floodImages/")) ;
   }
+
+  floodThumbs = new ArrayList() ; // new array list for thumbs
+  String[] thumbs = getThumbs() ;  // call the function to get images
 }
 
 void draw() {
   background(240, 240, 240);
   //Sandbag generation button
 
-  image(riverIsometric, 0, 0) ; //draw background map image
+  shape(riverIsometric, 0, 0, 1080, 745) ; //draw background map image
 
   noStroke() ;
   setFloodplane() ;
@@ -246,6 +247,30 @@ void setFloodplane() {
 String[] getImages() {
   // we'll have a look in the data folder
   java.io.File folder = new java.io.File(dataPath("floodImages/"));
+
+  // let's set a filter (which returns true if file's extension is .png)
+  java.io.FilenameFilter pngFilter = new java.io.FilenameFilter() {
+    public boolean accept(File dir, String name) {
+      return name.toLowerCase().endsWith(".png");
+    }
+  };
+
+  // list the files in the data folder, passing the filter as parameter
+  String[] filenames = folder.list(pngFilter);
+
+  // get and display the number of png files
+  println(filenames.length + " png files in specified directory");
+
+  // display the filenames
+  for (int i = 0; i < filenames.length; i++) {
+    println(filenames[i]);
+  }
+
+  return filenames ;
+}
+String[] getThumbs() {
+  // we'll have a look in the data folder
+  java.io.File folder = new java.io.File(dataPath("floodImages/thumbs/"));
 
   // let's set a filter (which returns true if file's extension is .png)
   java.io.FilenameFilter pngFilter = new java.io.FilenameFilter() {

@@ -21,7 +21,7 @@ class House {
 
   void render() {
 
-  image(house, posx, posy) ; //draw houses from image
+  shape(house, posx, posy, 1, 1) ; //draw houses from image
   }
 }
 
