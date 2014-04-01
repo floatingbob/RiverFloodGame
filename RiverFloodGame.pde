@@ -125,7 +125,7 @@ void draw() {
     Sandbag s = (Sandbag) sandbags.get(i) ;  // get the ith Sandbag element from the list 
     s.render() ;
   }
- 
+
 
 
 
@@ -147,11 +147,13 @@ void draw() {
 
   stopFlood() ;
 
-  if () {
-    
+  // go through the array list and display, using multiplier to position
+  for (int i = 0; i < floodImages.size(); i++) 
+  {
+    FloodImage fl = (FloodImage)floodImages.get(i) ; // get a pointer to the array list instance
+    fl.display(posMultiplierX, posMultiplierY) ; //display it
   }
-//  floodedHouse() ;
-
+  //  floodedHouse() ;
 }
 
 void mousePressed() {
@@ -188,18 +190,6 @@ void stopFlood() {
   }
 }
 
-void floodedHouse() {
-  for (int i = 0; i < houses.size(); i++) {
-    for (int j = 0; j < points.length; j++) {
-      House h = (House)houses.get(i) ;
-      FancyPoint fp = points[j] ;
-      if (dist(h.posx, h.posy, fp.x, fp.y) < 20 ) {
-        println("house flooded") ;
-//        h.flooded = true ;
-      }
-    }
-  }
-}
 
 // method to plot houses within the specific start and end points of the flood creep
 void plotHouses(int start, int end, int num) {
