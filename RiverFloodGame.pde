@@ -237,7 +237,7 @@ void setFloodplane() {
       points[i].maxDistance = 10 ;
     }
   }
-  //plotHouses(start, end, 20, random(75 , 400)) ;
+  plotHouses(start, end, 20, random(50 , 300)) ;
 
   // New West area
   start = 70 ; 
@@ -250,7 +250,7 @@ void setFloodplane() {
       points[i].maxDistance = 5 ;
     }
   }
-  //plotHouses(start, end, 200, random(50, 300)) ;
+  plotHouses(start, end, 100, random(50, 300)) ;
 
 //  start = 145 ;
 //  end = 135 ;
