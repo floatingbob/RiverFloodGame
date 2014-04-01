@@ -11,12 +11,12 @@ class FloodImage {
   PImage thumb ; 
   float x, y ;
   int savedTime = millis() ; // save current time
-  int totalTime = 5000 ; // timer limit 
+  int totalTime = 100000 ; // timer limit 
 
   // Bobbing pictures variables
   int gStep = 0;
   boolean gForwardFlag = true;
-  final int kStepTime = 600;  // how fast to step
+  final int kStepTime = 400;  // how fast to step
   int gLastTime = 0;
 
   // constructor with argument for file name
@@ -24,8 +24,8 @@ class FloodImage {
 
     img = loadImage(dir + name) ; // load the image
     getPosition(name) ;  // call the method to strip grid position from file name
-   
-    thumb = loadImage(dir + name) ; // load the thumbs
+
+      thumb = loadImage(dir + name) ; // load the thumbs
     getPosition(name) ;  // call the method to strip grid position
   }
 
@@ -34,7 +34,7 @@ class FloodImage {
   // if a house is being flooded
   void display(float multiplierX, float multiplierY) {
 
-  // establish timing for bobbing images
+    // establish timing for bobbing images
     int thisTime = millis();
     if (thisTime - gLastTime >= kStepTime) {
       if (gForwardFlag == true) {
@@ -54,41 +54,41 @@ class FloodImage {
     }
 
 
-    for (int i = 0; i < houses.length; i++) {
-      for (int j = 0; j < points.length; j++) {
-        House h = houses[i] ;
-        FancyPoint fp = points[j] ;
-        if (dist(h.posx, h.posy, fp.x, fp.y) < 20) {
-          switch(gStep) {  //makes imgs bob in the water
-          case -3:
-            image(thumb, x*multiplierX, y*multiplierY, 100, 100);
-            break;
-          case -2:
-            image(thumb, x*multiplierX, y*multiplierY - 5, 100, 100);
-            break;
-          case -1:
-            image(thumb, x*multiplierX, y*multiplierY - 10, 100, 100);
-            break;
-          case 0:
-            image(thumb, x*multiplierX, y*multiplierY + 4, 100, 100);
-            break;
-          case 1:
-            image(thumb, x*multiplierX, y*multiplierY - 10, 100, 100);
-            break;
-          case 2:
-            image(thumb, x*multiplierX, y*multiplierY - 5, 100, 100);
-            break;
-          case 3:
-            image(thumb, x*multiplierX, y*multiplierY - 8, 100, 100);
-            break;
-          }
-
-          if (dist (pmouseX, pmouseY, x*multiplierX, y*multiplierX) < 70) {
-            image(img, x*multiplierX, y*multiplierY) ;
-          }
-        }
-      }
+    //    for (int i = 0; i < houses.size(); i++) {
+    //      for (int j = 0; j < points.length; j++) {
+    //        House h = (House)houses.get(i) ;
+    //        FancyPoint fp = points[j] ;
+    //    if (dist(h.posx, h.posy, fp.x, fp.y) < 20) {
+    switch(gStep) {  //makes imgs bob in the water
+    case -3:
+      image(thumb, x*multiplierX, y*multiplierY, 100, 100);
+      break;
+    case -2:
+      image(thumb, x*multiplierX, y*multiplierY - 5, 100, 100);
+      break;
+    case -1:
+      image(thumb, x*multiplierX, y*multiplierY - 10, 100, 100);
+      break;
+    case 0:
+      image(thumb, x*multiplierX, y*multiplierY + 4, 100, 100);
+      break;
+    case 1:
+      image(thumb, x*multiplierX, y*multiplierY - 10, 100, 100);
+      break;
+    case 2:
+      image(thumb, x*multiplierX, y*multiplierY - 5, 100, 100);
+      break;
+    case 3:
+      image(thumb, x*multiplierX, y*multiplierY - 8, 100, 100);
+      break;
     }
+
+    if (dist (pmouseX, pmouseY, x*multiplierX, y*multiplierX) < 70) {
+      image(img, x*multiplierX, y*multiplierY) ;
+    }
+    //  }
+    //      }
+    //    }
 
 
 

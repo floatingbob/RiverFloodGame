@@ -19,10 +19,10 @@ class FancyPoint extends Point {
     over = true ;
   }
   void check() {
-    if (dist(mouseX, mouseY, x, y) < 10 && mousePressed) {
-      over = true ;
-    }
-    if (over == true) {
+    //if (dist(mouseX, mouseY, x, y) < 10 && mousePressed) {
+     // over = true ;
+    //}
+   // if (over == true) {
 
       x = x + sin(dir) * speed;
       y = y + cos(dir) * speed;
@@ -32,8 +32,9 @@ class FancyPoint extends Point {
       if (dist(sx, sy, x, y) >= maxDistance) {
         speed = 0;
       }
-    }
+    //}
   }
+  
   void reset() {
     x = sx ;
     y = sy ;

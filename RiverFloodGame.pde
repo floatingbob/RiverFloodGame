@@ -4,7 +4,7 @@
 
 //----Arrays--
 FancyPoint[] points ; // an array for all the points in the svg
-House[] houses = new House[25] ; // an array list of houses
+ArrayList houses ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
 ArrayList floodImages ; // an array list for the image objects to load into
 ArrayList floodThumbs ; // an array list for my image thumb objects
@@ -35,8 +35,8 @@ void setup() {
   textAlign(CENTER) ;
   //------Arrays----
   sandbags = new ArrayList() ; // generate sandbag array list
-
-    //----------------
+  houses = new ArrayList() ; // house array list
+  //----------------
   rx = 1000 ; //reset button x start
   ry = 30 ; //reset button y start
   bx = rx - 175 ; //Button X start coordinate
@@ -66,14 +66,6 @@ void setup() {
     }
   }
 
-  // Init array of houses randomly along my points array
-  for (int j = 0; j < houses.length; j ++) {
-    float rad = random(200, 300) ; //sets distance of houses from the edge of the river
-    int r = (int) random(points.length) ;
-    FancyPoint p = points[r] ;
-    houses[j] = new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad) ;
-  }
-
   // calculate the multiplers after size() relative to the grid
   posMultiplierX = width/gridSizeX ;
   posMultiplierY = height/gridSizeY ;
@@ -88,16 +80,18 @@ void setup() {
 
   floodThumbs = new ArrayList() ; // new array list for thumbs
   String[] thumbs = getThumbs() ;  // call the function to get images
+
+    setFloodplane() ;
+  background(240, 240, 240);
 }
 
 void draw() {
-  background(240, 240, 240);
+  //background(240, 240, 240);
   //Sandbag generation button
 
-  shape(riverIsometric, 0, 0, 1080, 745) ; //draw background map image
+  shape(riverIsometric, 0, 0, 1080, 768) ; //draw background map image
 
   noStroke() ;
-  setFloodplane() ;
   //floodedHouse() ;
   // flood reset button
 
@@ -120,8 +114,8 @@ void draw() {
   }
 
   // Draw out houses
-  for (int l=0; l<houses.length ; l++) {
-    House h = houses[l] ;
+  for (int l=0; l<houses.size() ; l++) {
+    House h = (House)houses.get(l) ;
     h.render() ;
   }
 
@@ -131,6 +125,7 @@ void draw() {
     Sandbag s = (Sandbag) sandbags.get(i) ;  // get the ith Sandbag element from the list 
     s.render() ;
   }
+ 
 
 
 
@@ -140,23 +135,23 @@ void draw() {
   for (int i=0; i<points.length ; i++) {
     FancyPoint p = points[i] ;
     p.check() ;
-    fill(99, 201, 219);
+
     //    ellipse(p.x, p.y, 10, 10) ; //ellipse at points
 
     curveVertex(p.x, p.y) ;
-    fill(75, 75, 75);
+    //fill(75, 75, 75);
     //    text(i, p.x, p.y);
   }
   fill(99, 201, 219, 200) ;
   endShape() ;
-  stopFlood() ;
-  reset() ;
 
-  // go through the array list and display, using ,multiplier to position
-  for (int i=0; i<floodImages.size(); i++) {
-    FloodImage fl = (FloodImage)floodImages.get(i) ; // get a pointer to the arraylist instance
-    fl.display(posMultiplierX, posMultiplierY) ;  //display it
+  stopFlood() ;
+
+  if () {
+    
   }
+//  floodedHouse() ;
+
 }
 
 void mousePressed() {
@@ -193,56 +188,125 @@ void stopFlood() {
   }
 }
 
+void floodedHouse() {
+  for (int i = 0; i < houses.size(); i++) {
+    for (int j = 0; j < points.length; j++) {
+      House h = (House)houses.get(i) ;
+      FancyPoint fp = points[j] ;
+      if (dist(h.posx, h.posy, fp.x, fp.y) < 20 ) {
+        println("house flooded") ;
+//        h.flooded = true ;
+      }
+    }
+  }
+}
+
+// method to plot houses within the specific start and end points of the flood creep
+void plotHouses(int start, int end, int num) {
+
+  for (int i = 0; i < num; i ++) {
+    int r = (int) random(start, end) ; 
+    FancyPoint p = points[r] ;
+    float rad = p.maxDistance ; 
+    houses.add(new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad)) ;
+  }
+}
+// method to plot houses within the specific start and end points of the flood creep
+void plotHouses(int start, int end, int num, float dist) {
+
+  for (int i = 0; i < num; i ++) {
+    int r = (int) random(start, end) ; 
+    FancyPoint p = points[r] ;
+    float rad = dist ; 
+    houses.add(new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad)) ;
+  }
+}
 void setFloodplane() {
+
+  //  Init array of houses randomly along my points array
+  //  for (int j = 0; j < houses.length; j ++) {
+  //    float rad = random(200, 300) ; //sets distance of houses from the edge of the river
+  //    int r = (int) random(points.length) ;
+  //    FancyPoint p = points[r] ;
+  //    houses[j] = new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad) ;
+  //  }
+
+  int start = 1 ;
+  int end = 70 ;
   for (int i = 0; i < points.length; i++) {
-    if ( i > 1 && i < 70) {
+
+    if ( i > start && i < end) {
       points[i].dir = .55*TWO_PI ;
       points[i].maxDistance = 10 ;
     }
   }
-  //  for (int i = 0; i < points.length; i++) {
-  //        if ( i >= 78 && i <= 69) {
-  //          points[i].dir = .55*TWO_PI ;
-  //          points[i].maxDistance = 20 ; 
-  //        }
-  //  }
+  plotHouses(start, end, 10, random(40, 180)) ;
+
+  start = 70 ; 
+  end = 144 ;
   for (int i = 0; i < points.length; i++) {
-    if ( i >= 70 && i <= 144) {
+
+
+    if ( i >= start && i <= end) {
       points[i].dir = .55*TWO_PI ;
       points[i].maxDistance = 5 ;
     }
   }
+  plotHouses(start, end, 5) ;
+
+  start = 145 ;
+  end = 135 ;
   for (int i = 0; i < points.length; i++) {
+
+
     if ( i >= 145 && i <= 135) {
       points[i].dir = .0*TWO_PI ;
       points[i].maxDistance = 15 ;
     }
   }
+  plotHouses(start, end, 5) ;
+  start = 135 ; 
+  end = 175 ; 
+
   for (int i = 0; i < points.length; i++) {
-    if ( i > 135 && i <= 175) {
+    if ( i > start && i <= end) {
       points[i].dir = .2*TWO_PI ;
       points[i].maxDistance = 60 ;
     }
   }
+  plotHouses(start, end, 5) ;
+  start = 176 ; 
+  end = 185 ;
+
   for (int i = 0; i < points.length; i++) {
-    if ( i >= 176 && i <= 185) {
+    if ( i >= start && i <= end) {
       points[i].dir = .5*TWO_PI ;
       points[i].maxDistance = 20 ;
     }
   }
+  plotHouses(start, end, 5) ; 
+  start = 185 ;
+  end = 192 ; 
+
   for (int i = 0; i < points.length; i++) {
-    if ( i >= 185 && i <= 192) {
+    if ( i >= start && i <= end) {
       points[i].dir = .55*TWO_PI ;
       points[i].maxDistance = 5 ;
     }
   }
+  plotHouses(start, end, 15) ; 
+  start = 252 ; 
+  end = 320 ; 
+
   for (int i = 0; i < points.length; i++) {
-    if ( i >= 252 && i <= 320) {
+    if ( i >= start && i <= end) {
       points[i].dir = .0*TWO_PI ;
       points[i].maxDistance = 100 ;
     }
   }
+  plotHouses(start, end, 5) ;
 }
+
 
 String[] getImages() {
   // we'll have a look in the data folder
