@@ -156,7 +156,7 @@ void draw() {
     FancyPoint fp = points[i] ;
     House h = (House) houses.get(i) ;
 
-    if (dist(h.posx, h.posy, fp.x, fp.y) < 60) {
+    if (dist(h.posx, h.posy, fp.x, fp.y) < 20) {
       FloodImage fl = (FloodImage)floodImages.get(i) ; // get a pointer to the array list instance
       fl.display(posMultiplierX, posMultiplierY) ; //display it
     }
@@ -265,7 +265,7 @@ void setFloodplane() {
 
     if ( i >= start && i <= end) {
       points[i].dir = .55*TWO_PI ;
-      points[i].maxDistance = 50 ;
+      points[i].maxDistance = 120 ;
     }
   }
   plotHouses(start, end, 3, 100) ;
@@ -292,7 +292,7 @@ void setFloodplane() {
   for (int i = 0; i < points.length; i++) {
     if ( i >= start && i <= end) {
       points[i].dir = .3*TWO_PI ;
-      points[i].maxDistance = 20 ;
+      points[i].maxDistance = 90 ;
     }
   }
   plotHouses(start, end, 3, 50) ; 
@@ -313,7 +313,7 @@ void setFloodplane() {
   for (int i = 0; i < points.length; i++) {
     if ( i >= start && i <= end) {
       points[i].dir = .0*TWO_PI ;
-      points[i].maxDistance = 5 ;
+      points[i].maxDistance = 100 ;
     }
   }
   plotHouses(start, end, 5, 100) ;
