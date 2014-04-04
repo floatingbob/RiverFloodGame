@@ -8,6 +8,7 @@ ArrayList houses ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
 ArrayList floodImages ; // an array list for the image objects to load into
 ArrayList floodThumbs ; // an array list for my image thumb objects
+int[] buildHouses75_250 = new int[249] ;
 //------------
 float posMultiplierX, posMultiplierY ; // multipliers for positioning in a flexible way
 // the grid we want on the the screen
@@ -88,6 +89,7 @@ void setup() {
 void draw() {
   //background(240, 240, 240);
   //Sandbag generation button
+  float marlinRando75_200 = random(75, 200) ;
 
   shape(riverIsometric, 0, 0, 1080, 768) ; //draw background map image
 
@@ -213,7 +215,7 @@ void plotHouses(int start, int end, int num, float dist) {
   for (int i = 0; i < num; i ++) {
     int r = (int) random(start, end) ; 
     FancyPoint p = points[r] ;
-    float rad = random(10,100) ; 
+    float rad = dist ; 
     houses.add(new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad)) ;
   }
 }
@@ -234,10 +236,10 @@ void setFloodplane() {
 
     if ( i > start && i < end) {
       points[i].dir = .55*TWO_PI ;
-      points[i].maxDistance = 10 ;
+      points[i].maxDistance = 0 ;
     }
   }
-  plotHouses(start, end, 20, random(50 , 300)) ;
+  plotHouses(start, end, 20, marlinRando75_200) ;
 
   // New West area
   start = 70 ; 
