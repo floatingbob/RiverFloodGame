@@ -8,7 +8,7 @@ ArrayList houses ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
 ArrayList floodImages ; // an array list for the image objects to load into
 ArrayList floodThumbs ; // an array list for my image thumb objects
-int[] buildHouses75_250 = new int[249] ;
+
 //------------
 float posMultiplierX, posMultiplierY ; // multipliers for positioning in a flexible way
 // the grid we want on the the screen
@@ -44,6 +44,7 @@ void setup() {
   by = ry ; //Button Y start coordinate 
   bsx = 75 ; // Button width (sandbags)
   bsy = 35 ; // button height (sandbags)
+  
 
 
   // The file "bot.svg" must be in the data folder
@@ -239,7 +240,9 @@ void setFloodplane() {
       points[i].maxDistance = 0 ;
     }
   }
-  plotHouses(start, end, 20, marlinRando75_200) ;
+  plotHouses(start, end, 5, 75) ;
+  plotHouses(start, end, 5, 100) ;
+  plotHouses(start, end, 5, 200) ;
 
   // New West area
   start = 70 ; 
