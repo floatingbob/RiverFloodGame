@@ -142,8 +142,8 @@ void draw() {
     //    ellipse(p.x, p.y, 10, 10) ; //ellipse at points
 
     curveVertex(p.x, p.y) ;
-    fill(75, 75, 75);
-    text(i, p.x, p.y);
+    //fill(75, 75, 75);
+    //text(i, p.x, p.y);
   }
   fill(99, 201, 219, 200) ;
   endShape() ;
