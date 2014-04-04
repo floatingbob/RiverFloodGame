@@ -44,7 +44,7 @@ void setup() {
   by = ry ; //Button Y start coordinate 
   bsx = 75 ; // Button width (sandbags)
   bsy = 35 ; // button height (sandbags)
-  
+
 
 
   // The file "bot.svg" must be in the data folder
@@ -230,7 +230,7 @@ void setFloodplane() {
   //    houses[j] = new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad) ;
   //  }
 
-// Vancouver & Burnaby
+  // Vancouver & Burnaby
   int start = 12 ;
   int end = 70 ;
   for (int i = 0; i < points.length; i++) {
@@ -243,6 +243,7 @@ void setFloodplane() {
   plotHouses(start, end, 5, 75) ;
   plotHouses(start, end, 5, 100) ;
   plotHouses(start, end, 5, 200) ;
+  plotHouses(start, end, 5, 150) ;
 
   // New West area
   start = 70 ; 
@@ -255,18 +256,13 @@ void setFloodplane() {
       points[i].maxDistance = 5 ;
     }
   }
-  plotHouses(start, end, 100, random(50, 300)) ;
+  plotHouses(start, end, 3, 100) ;
+  plotHouses(start, end, 5, 75) ;
+  plotHouses(start, end, 5, 100) ;
+  plotHouses(start, end, 5, 200) ;
+  plotHouses(start, end, 5, 150) ;
 
-//  start = 145 ;
-//  end = 135 ;
-//  for (int i = 0; i < points.length; i++) {
-//    if ( i >= start && i <= end) {
-//      points[i].dir = .0*TWO_PI ;
-//      points[i].maxDistance = 15 ;
-//    }
-//  }
-//  //plotHouses(start, end, 20, random(30,50)) ;
-  
+  //
   start = 135 ; 
   end = 175 ; 
 
@@ -276,8 +272,8 @@ void setFloodplane() {
       points[i].maxDistance = 60 ;
     }
   }
-  //plotHouses(start, end, 5) ;
-  
+  plotHouses(start, end, 5, 50) ;
+
   start = 176 ; 
   end = 185 ;
 
@@ -287,8 +283,8 @@ void setFloodplane() {
       points[i].maxDistance = 20 ;
     }
   }
-  //plotHouses(start, end, 3, random(5, 50)) ; 
-  
+  plotHouses(start, end, 3, 50) ; 
+
   start = 185 ;
   end = 192 ; 
 
@@ -299,7 +295,7 @@ void setFloodplane() {
     }
   }
   //plotHouses(start, end, 15) ; 
-  
+
   start = 222 ;
   end = 248 ; 
   for (int i = 0; i < points.length; i++) {
@@ -308,17 +304,63 @@ void setFloodplane() {
       points[i].maxDistance = 5 ;
     }
   }
-  plotHouses(start, end, 10, random(100,200)) ;
-  
-  start = 252 ; 
+  plotHouses(start, end, 5, 100) ;
+  plotHouses(start, end, 5, 150) ;
+  plotHouses(start, end, 5, 250) ;
+  plotHouses(start, end, 5, 300) ;
+
+  start = 250 ; 
+  end = 255 ; 
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= start && i <= end) {
+      points[i].dir = .0*TWO_PI ;
+      points[i].maxDistance = 0 ;
+    }
+  } 
+  start = 256 ; 
   end = 320 ; 
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= start && i <= end) {
+      points[i].dir = -.1*TWO_PI ;
+      points[i].maxDistance = 100 ;
+    }
+  }
+  plotHouses(start, end, 8, 25) ;
+  plotHouses(start, end, 2, 75) ;
+  plotHouses(start, end, 5, 80) ;
+  plotHouses(start, end, 3, 90) ;
+  plotHouses(start, end, 5, 75) ;
+  plotHouses(start, end, 5, random(50, 100)) ;
+
+  start = 381 ; 
+  end = 403 ; 
   for (int i = 0; i < points.length; i++) {
     if ( i >= start && i <= end) {
       points[i].dir = .0*TWO_PI ;
       points[i].maxDistance = 100 ;
     }
   }
-  plotHouses(start, end, 35, random(10, 100)) ;
+  plotHouses(start, end, 8, 50) ;
+  plotHouses(start, end, 2, 75) ;
+
+  start = 323 ; 
+  end = 365 ; 
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= start && i <= end) {
+      points[i].dir = .5*TWO_PI ;
+      points[i].maxDistance = 100 ;
+    }
+  }
+  plotHouses(start, end, 4, 25) ;
+
+  start = 366 ; 
+  end = 403 ; 
+  for (int i = 0; i < points.length; i++) {
+    if ( i >= start && i <= end) {
+      points[i].dir = -.1*TWO_PI ;
+      points[i].maxDistance = 100 ;
+    }
+  }
 }
 
 
