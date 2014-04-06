@@ -23,7 +23,7 @@ int r = 5 ; //radius of rectangles
 int grey = 200 ;
 int black = 0 ;
 int white = 255 ;
-
+boolean imageFlag = false ; 
 
 void setup() {
 
@@ -34,6 +34,7 @@ void setup() {
   smooth() ;
   rectMode(CENTER) ;
   textAlign(CENTER) ;
+  imageMode(CENTER) ;
   //------Arrays----
   sandbags = new ArrayList() ; // generate sandbag array list
   houses = new ArrayList() ; // house array list
@@ -75,15 +76,20 @@ void setup() {
   floodImages = new ArrayList() ; // new array list
   String[] images = getImages();  // call the function to get all the images
 
-    // got through the array of names and create a object into the array list
+    // go through the array of names and create a object into the array list
   for (int i =0 ; i< images.length; i++) {
     floodImages.add(new FloodImage(images[i], "floodImages/")) ;
   }
 
   floodThumbs = new ArrayList() ; // new array list for thumbs
   String[] thumbs = getThumbs() ;  // call the function to get images
+  
+  // go through the array of names and create a object into the array list
+  for (int i =0 ; i< thumbs.length; i++) {
+    floodImages.add(new FloodImage(images[i], "floodImages/thumbs")) ;
+  }
 
-    setFloodplane() ;
+  setFloodplane() ;
   background(240, 240, 240);
 }
 
@@ -156,9 +162,13 @@ void draw() {
     FancyPoint fp = points[i] ;
     House h = (House) houses.get(i) ;
 
-    if (dist(h.posx, h.posy, fp.x, fp.y) < 20) {
+    if (dist(h.posx, h.posy, fp.x, fp.y) < 100) {
+
+      //if (imageFlag == true) {
       FloodImage fl = (FloodImage)floodImages.get(i) ; // get a pointer to the array list instance
       fl.display(posMultiplierX, posMultiplierY) ; //display it
+
+      //}
     }
   }
   //  floodedHouse() ;
@@ -375,7 +385,7 @@ void setFloodplane() {
       points[i].maxDistance = 30 ;
     }
   }
-  
+
   start = 364 ; 
   end = 370 ; 
   for (int i = 0; i < points.length; i++) {
