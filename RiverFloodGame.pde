@@ -8,13 +8,15 @@ ArrayList houses ; // an array list of houses
 ArrayList sandbags ; // array of sandbags
 ArrayList floodImages ; // an array list for the image objects to load into
 ArrayList floodThumbs ; // an array list for my image thumb objects
+ArrayList churches ;
+ArrayList buildings ; 
 
 //------------
 float posMultiplierX, posMultiplierY ; // multipliers for positioning in a flexible way
 // the grid we want on the the screen
 float gridSizeX = 10 ;
 float gridSizeY = 8 ;
-PShape riverIsometric, house ; 
+PShape riverIsometric, house, church, building ; 
 PShape s; // svg shape 
 float bx, by, bsx, bsy, rx, ry ; // button variables
 boolean flag = false ; // test to see if we are pressed or free to make another
@@ -29,6 +31,9 @@ void setup() {
 
   riverIsometric = loadShape("riverSVG_Isometric.svg") ;
   house = loadShape("house.svg") ;
+  church = loadShape("church.svg") ;
+  building = loadShape("building.svg") ; 
+
   background(0) ;
   size(1080, 768) ;
   smooth() ;
@@ -38,6 +43,8 @@ void setup() {
   //------Arrays----
   sandbags = new ArrayList() ; // generate sandbag array list
   houses = new ArrayList() ; // house array list
+  churches = new ArrayList() ; // new array for churches
+  buildings = new ArrayList() ; //new array of buildings
   //----------------
   rx = 1000 ; //reset button x start
   ry = 30 ; //reset button y start
@@ -83,8 +90,8 @@ void setup() {
 
   floodThumbs = new ArrayList() ; // new array list for thumbs
   String[] thumbs = getThumbs() ;  // call the function to get images
-  
-  // go through the array of names and create a object into the array list
+
+    // go through the array of names and create a object into the array list
   for (int i =0 ; i< thumbs.length; i++) {
     floodImages.add(new FloodImage(images[i], "floodImages/thumbs")) ;
   }
@@ -94,7 +101,7 @@ void setup() {
 }
 
 void draw() {
-  //background(240, 240, 240);
+
   //Sandbag generation button
   float marlinRando75_200 = random(75, 200) ;
 
@@ -103,6 +110,9 @@ void draw() {
   noStroke() ;
   //floodedHouse() ;
   // flood reset button
+
+  // top menu
+
 
   //Reset button
   fill(247, 147, 29) ;
@@ -127,17 +137,22 @@ void draw() {
     House h = (House)houses.get(l) ;
     h.render() ;
   }
-
+  // Draw out churches
+  for (int i=0; i<churches.size() ; i++) {
+    Church c = (Church)churches.get(i) ;
+    c.render() ;
+  }
+  // Draw out buildings
+  for (int l=0; l<buildings.size() ; l++) {
+    Building b = (Building)buildings.get(l) ;
+    b.render() ;
+  }
 
   // Draw out sandbags
   for (int i = 0; i < sandbags.size(); i++) {
     Sandbag s = (Sandbag) sandbags.get(i) ;  // get the ith Sandbag element from the list 
     s.render() ;
   }
-
-
-
-
 
   // go through the points array and draw a curveVertex shape at the points location
   beginShape() ;
@@ -162,7 +177,7 @@ void draw() {
     FancyPoint fp = points[i] ;
     House h = (House) houses.get(i) ;
 
-    if (dist(h.posx, h.posy, fp.x, fp.y) < 100) {
+    if (dist(h.posx, h.posy, fp.x, fp.y) < 30) {
 
       //if (imageFlag == true) {
       FloodImage fl = (FloodImage)floodImages.get(i) ; // get a pointer to the array list instance
@@ -230,6 +245,24 @@ void plotHouses(int start, int end, int num, float dist) {
     houses.add(new House(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad)) ;
   }
 }
+void plotChurches(int start, int end, int num, float dist) {
+
+  for (int i = 0; i < num; i ++) {
+    int r = (int) random(start, end) ; 
+    FancyPoint p = points[r] ;
+    float rad = dist ; 
+    churches.add(new Church(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad)) ;
+  }
+}
+void plotBuildings(int start, int end, int num, float dist) {
+
+  for (int i = 0; i < num; i ++) {
+    int r = (int) random(start, end) ; 
+    FancyPoint p = points[r] ;
+    float rad = dist ; 
+    buildings.add(new Building(p.sx + sin(p.dir) * rad, p.sy + cos(p.dir) * rad)) ;
+  }
+}
 void setFloodplane() {
 
   //  Init array of houses randomly along my points array
@@ -254,6 +287,8 @@ void setFloodplane() {
   plotHouses(start, end, 5, 100) ;
   plotHouses(start, end, 5, 200) ;
   plotHouses(start, end, 5, 150) ;
+  plotChurches(start, end, 1, 100) ;
+  plotBuildings(start, end, 1, 100) ; 
 
   start = 70 ;
   end = 77 ;
@@ -266,6 +301,8 @@ void setFloodplane() {
   }
   plotHouses(start, end, 5, 75) ;
   plotHouses(start, end, 5, 50) ;
+  plotBuildings(start, end, 1, 100) ; 
+
 
   // New West area
   start = 78 ; 
@@ -282,7 +319,9 @@ void setFloodplane() {
   plotHouses(start, end, 5, 75) ;
   plotHouses(start, end, 5, 100) ;
   plotHouses(start, end, 5, 200) ;
-  plotHouses(start, end, 5, 150) ;
+  plotHouses(start, end, 1, 150) ;
+  plotBuildings(start, end, 1, 100) ; 
+
 
   //
   start = 135 ; 
@@ -294,7 +333,7 @@ void setFloodplane() {
       points[i].maxDistance = 60 ;
     }
   }
-  plotHouses(start, end, 5, 50) ;
+  plotHouses(start, end, 3, 50) ;
 
   start = 176 ; 
   end = 185 ;
@@ -306,6 +345,8 @@ void setFloodplane() {
     }
   }
   plotHouses(start, end, 3, 50) ; 
+  plotChurches(start, end, 1, 100) ;
+  plotBuildings(start, end, 1, 100) ; 
 
   start = 185 ;
   end = 192 ; 
@@ -329,7 +370,7 @@ void setFloodplane() {
   plotHouses(start, end, 5, 100) ;
   plotHouses(start, end, 5, 150) ;
   plotHouses(start, end, 5, 250) ;
-  plotHouses(start, end, 5, 300) ;
+  plotHouses(start, end, 2, 300) ;
 
   start = 250 ; 
   end = 255 ; 
@@ -353,6 +394,9 @@ void setFloodplane() {
   plotHouses(start, end, 3, 90) ;
   plotHouses(start, end, 5, 75) ;
   plotHouses(start, end, 5, random(50, 100)) ;
+  plotChurches(start, end, 1, 100) ;
+    plotBuildings(start, end, 1, 100) ; 
+
 
   start = 381 ; 
   end = 403 ; 
@@ -364,6 +408,8 @@ void setFloodplane() {
   }
   plotHouses(start, end, 8, 50) ;
   plotHouses(start, end, 2, 75) ;
+    plotBuildings(start, end, 1, 100) ; 
+
 
   start = 323 ; 
   end = 355 ; 
@@ -374,6 +420,9 @@ void setFloodplane() {
     }
   }
   plotHouses(start, end, 4, 25) ;
+  plotChurches(start, end, 1, 100) ;
+    plotBuildings(start, end, 1, 100) ; 
+
 
 
 

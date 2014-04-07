@@ -15,7 +15,7 @@ class House {
   }
 
   void render() {
-
+    
     shape(house, posx, posy, 1, 1) ; //draw houses from svg
   }
 }

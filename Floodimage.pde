@@ -10,7 +10,7 @@ class FloodImage {
   PImage img, thumb ; 
   float x, y ;
   int savedTime = millis() ; // save current time
-  int totalTime = 100000 ; // timer limit 
+  //int totalTime = 100000 ; // timer limit 
   // brownian variables
   float xTar, yTar ;
   float speed = 0.01 ;
@@ -53,11 +53,11 @@ class FloodImage {
     // Calculate how much time has passed
     int passedTime = millis() - savedTime;
     // Has five seconds passed?
-    if (passedTime > totalTime) {
-      println( " 5 seconds have passed! " );
-      background(random(255)); // Color a new background
-      savedTime = millis(); // Save the current time to restart the timer!
-    }
+    //if (passedTime > totalTime) {
+      //println( " 5 seconds have passed! " );
+      //background(random(255)); // Color a new background
+      //savedTime = millis(); // Save the current time to restart the timer!
+    //}
   }
 
   void getPosition(String val) {
